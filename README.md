@@ -4,7 +4,7 @@
 ## cwebp转换结果
 ![cweb -o](uploads/1241175-3ffb9015aa085bdd.png.webp)
 
-## 实例日志
+## 示例日志
 ```
 pic_url is: https://upload-images.jianshu.io/upload_images/1241175-3ffb9015aa085bdd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240
 uploads//1241175-3ffb9015aa085bdd.png 1241175-3ffb9015aa085bdd.png
@@ -31,3 +31,6 @@ convert to cwebp successfully: uploads//1241175-3ffb9015aa085bdd.png.webp
 your pic:
 https://memos.henryhe.cn/o/r/55
 ```
+
+## 结果
+![生成地址后可直接预览](uploads/result.png)

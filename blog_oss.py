@@ -13,6 +13,7 @@
 
 # 再调用 memo接口 携带资源生成PicGO memo.
 
+from DrissionPage import WebPage
 import requests
 import os
 import subprocess
@@ -57,14 +58,6 @@ def download_pic(pic_url):
     page = WebPage('s')
     page.download(pic_url, SAVE_PATH)
     return SAVE_PATH + '/' + image_name, image_name
-
-def download_pic_request(pic_url):
-    image_name = pic_url.split('/')[4].split('?')[0]
-    response = requests.get(pic_url)
-    if response.status_code == 200:
-        with open(SAVE_PATH + '/' + image_name, 'wb') as f:
-            f.write(response.content)
-
 
 def get_memos_with_id(id):
     response = requests.get('https://memos.henryhe.cn/api/v1/memo/' + str(id), headers=HEADERS)

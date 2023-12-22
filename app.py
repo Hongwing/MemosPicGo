@@ -17,6 +17,7 @@ import requests
 import os
 import subprocess
 import json
+import time
 
 from flask import Flask, render_template, request
 app = Flask(__name__)
@@ -26,10 +27,10 @@ UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
-BEARER_TOKEN = ''
+BEARER_TOKEN = os.environ.get('MEMOS_BEARER_TOKEN')
 HEADERS = {'Authorization': 'Bearer ' + BEARER_TOKEN}
 SAVE_PATH = os.path.join(app.config['UPLOAD_FOLDER'], '')
-
+IMAGE_COUTER = 'download.jpg'
 
 def upload_memos(pic_url):
     save_path, image_name = download_pic_request(pic_url)
@@ -38,6 +39,9 @@ def upload_memos(pic_url):
     r_list = get_memos_with_id(31)
     print(r_list)
     pic_id = post_memo_blob(save_path)
+    if not pic_id:
+        print('upload to memos failed.')
+        return None
     memo_pic_url = 'https://memos.henryhe.cn/o/r/'
     r_list.append(pic_id)
     print(r_list)
@@ -61,8 +65,10 @@ def cwebp_convert_pic(name):
     return result_path
 
 def download_pic_request(pic_url):
-    url = pic_url.split('?')[0]
-    image_name = pic_url.split('/')[4].split('?')[0]
+    # url = pic_url.split('?')[0]
+    # image_name = pic_url.split('/')[4].split('?')[0]
+    url = pic_url
+    image_name = str((int)(time.time())) + '_' + IMAGE_COUTER
     response = requests.get(url)
     if response.status_code == 200:
         with open(SAVE_PATH + '/' + image_name, 'wb') as f:
@@ -80,6 +86,7 @@ def post_memo_blob(filepath):
     # filepath: '/Users/henryhe/t.webp'
     files = {'file': open(filepath, 'rb')}
     final_resp = requests.post('https://memos.henryhe.cn/api/v1/resource/blob', files=files, headers=HEADERS)
+    print(final_resp.json())
     # 获取id
     pic_id = final_resp.json().get('id')
     return pic_id

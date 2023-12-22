@@ -2,7 +2,7 @@
 下载给定地址的图片，自动转换格式为webp格式并上传至Memos.
 
 ## cwebp转换结果
-![cweb -o](uploads/1241175-3ffb9015aa085bdd.png.webp)
+![cweb -o](uploads/cwebp.png.webp)
 
 ## 示例日志
 ```

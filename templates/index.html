@@ -10,21 +10,50 @@
 </head>
 
 <body>
-    <h1>Flask Web App</h1>
+    <h1>MemosPicGo</h1>
+    <p style="font-weight: bold;">一款图床小工具：可以给定地址图片转换格式为webp，上传至Memos供外部访问（例如个人博客图床）</p>
+    <!-- <div>
+        <label for="saveInput">设置Memos Access Token:</label>
+        <input type="password" id="saveInput">
+        <button onclick="saveToLocalStorage()">保存</button>
+    </div> -->
     <form action="/process_input" method="post">
         <label for="user_input">输入你的图片地址: </label>
         <input type="text" id="user_input" name="user_input" required>
+        <input type="hidden" name="savedPassword" id="savedPassword">
         <button type="submit">生成Memos地址</button>
     </form>
     {% if user_input %}
     <div>
         <p>Memos地址:</p>
-        <p>{{ user_input }}</p>
+        <p style="font-weight: bold;">{{ user_input }}</p>
         <div>
             <img src="{{ user_input }}" />
         </div>
     </div>
     {% endif %}
+    <script>
+        function saveToLocalStorage() {
+            var saveInput = document.getElementById('saveInput');
+            var inputValue = saveInput.value;
+            localStorage.setItem('BEARER_TOKEN', inputValue);
+            document.getElementById('savedPassword').value = inputValue;
+            if (inputValue) {
+                alert('AccessToken已保存至LocalStorage，后续使用无须再输入Token.');
+            } else {
+                alert('Token为空会导致上传失败，请输入正确Token.')
+            }
+        }
+
+        // 在页面加载时从LocalStorage中加载已保存的内容
+        window.onload = function () {
+            var savedInput = localStorage.getItem('BEARER_TOKEN');
+            if (savedInput) {
+                var saveInput = document.getElementById('saveInput');
+                saveInput.value = savedInput;
+            }
+        };
+    </script>
 </body>
 
 </html>

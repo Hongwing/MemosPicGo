@@ -32,6 +32,11 @@ HEADERS = {'Authorization': 'Bearer ' + BEARER_TOKEN}
 SAVE_PATH = os.path.join(app.config['UPLOAD_FOLDER'], '')
 IMAGE_COUTER = 'download.jpg'
 
+def refresh_token_by_localstorage():
+    '''
+        启动时从环境变量加载Token,运行时可通过页面变更token后从LocalStorage加载
+    '''
+
 def upload_memos(pic_url):
     save_path, image_name = download_pic_request(pic_url)
     print(save_path, image_name)
@@ -111,7 +116,8 @@ def index():
 @app.route('/process_input', methods=['POST'])
 def process_input():
     user_input = request.form['user_input']
-    print('pic_url is: ' + user_input)
+    saved_token = request.form['savedPassword']
+    print('pic_url is: ' + user_input + '\n BearToken is: ' + saved_token)
     result_url = upload_memos(user_input)
     return render_template('index.html', user_input=result_url)
 
